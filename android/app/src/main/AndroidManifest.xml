@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="mekarjs_erp_owner_end_user"
+        android:label="MekarJS ERP Owner End-user"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

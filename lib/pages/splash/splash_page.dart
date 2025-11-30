@@ -21,12 +21,13 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-
+      backgroundColor: const Color(0xFFEEEEEE),
       body: Center(
-        child: Text(
-          "MekarJS",
-          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+        child: Image.network(
+          'https://res.cloudinary.com/dy4hqxkv1/image/upload/v1764520849/icon_nxdvdy.png',
+          width: 200,
+          height: 200,
+          fit: BoxFit.contain,
         ),
       ),
     );
