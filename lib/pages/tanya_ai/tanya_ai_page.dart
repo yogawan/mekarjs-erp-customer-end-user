@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class ChatMessage {
   final String text;
@@ -118,7 +119,7 @@ class _TanyaAiPageState extends State<TanyaAiPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          Icons.smart_toy_outlined,
+                          LucideIcons.sparkles,
                           size: 64,
                           color: Colors.grey[400],
                         ),
@@ -182,7 +183,7 @@ class _TanyaAiPageState extends State<TanyaAiPage> {
             ),
           Container(
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: Color(0xFFEEEEEE),
             ),
             padding: const EdgeInsets.all(16),
             child: SafeArea(
@@ -216,7 +217,7 @@ class _TanyaAiPageState extends State<TanyaAiPage> {
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.send, color: Colors.white),
+                      icon: const Icon(LucideIcons.send, color: Colors.white),
                       onPressed: isLoading ? null : askToAI,
                     ),
                   ),
@@ -242,7 +243,7 @@ class _TanyaAiPageState extends State<TanyaAiPage> {
               radius: 16,
               backgroundColor: const Color(0xFFFFBB00),
               child: const Icon(
-                Icons.smart_toy,
+                LucideIcons.bot,
                 size: 18,
                 color: Colors.white,
               ),
@@ -283,7 +284,7 @@ class _TanyaAiPageState extends State<TanyaAiPage> {
               radius: 16,
               backgroundColor: Colors.grey[300],
               child: Icon(
-                Icons.person,
+                LucideIcons.user,
                 size: 18,
                 color: Colors.grey[700],
               ),

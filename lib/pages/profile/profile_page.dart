@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -58,6 +59,15 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() => isLoading = false);
   }
 
+  Future<void> logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove("token");
+
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, "/login");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -87,39 +97,41 @@ class _ProfilePageState extends State<ProfilePage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Center(
-              child: CircleAvatar(
-                radius: 50,
-                backgroundColor: const Color(0xFFFFBB00),
-                child: Text(
-                  _getInitials(profileData!["nama"]),
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              profileData!["nama"],
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 24),
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(24),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Center(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundColor: const Color(0xFFFFBB00),
+                      child: Text(
+                        _getInitials(profileData!["nama"]),
+                        style: const TextStyle(
+                          fontSize: 44,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: Text(
+                      profileData!["nama"],
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
                   const Text(
                     "Informasi Akun",
                     style: TextStyle(
@@ -137,6 +149,24 @@ class _ProfilePageState extends State<ProfilePage> {
                   const SizedBox(height: 12),
                   _buildInfoRow("Dibuat", profileData!["createdAt"]),
                 ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: logout,
+                icon: const Icon(LucideIcons.logOut, size: 20),
+                label: const Text("Logout"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFFFBB00),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(99),
+                  ),
+                  elevation: 0,
+                ),
               ),
             ),
           ],

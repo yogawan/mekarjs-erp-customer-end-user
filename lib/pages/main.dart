@@ -1,5 +1,6 @@
 // lib/pages/main.dart
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 import '../pages/tanya_ai/tanya_ai_page.dart';
 import '../pages/keuangan/keuangan_page.dart';
 import '../pages/kepala_cabang/kepala_cabang_page.dart';
@@ -28,13 +29,10 @@ class _BNavState extends State<BNav> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFEEEEEE),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: _pages[_currentIndex],
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: Color(0xFFEEEEEE),
         ),
         child: SafeArea(
           child: Padding(
@@ -49,6 +47,10 @@ class _BNavState extends State<BNav> {
               selectedFontSize: 12,
               unselectedFontSize: 11,
               selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
+              showSelectedLabels: true,
+              showUnselectedLabels: true,
+              enableFeedback: false,
+              mouseCursor: SystemMouseCursors.click,
               onTap: (index) {
                 setState(() {
                   _currentIndex = index;
@@ -56,28 +58,23 @@ class _BNavState extends State<BNav> {
               },
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.smart_toy_outlined),
-                  activeIcon: Icon(Icons.smart_toy),
+                  icon: Icon(LucideIcons.sparkles),
                   label: "Tanya AI",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.payments_outlined),
-                  activeIcon: Icon(Icons.payments),
+                  icon: Icon(LucideIcons.wallet),
                   label: "Keuangan",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.account_tree_outlined),
-                  activeIcon: Icon(Icons.account_tree),
+                  icon: Icon(LucideIcons.store),
                   label: "Cabang",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.supervisor_account_outlined),
-                  activeIcon: Icon(Icons.supervisor_account),
+                  icon: Icon(LucideIcons.users),
                   label: "Kepala Cabang",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline),
-                  activeIcon: Icon(Icons.person),
+                  icon: Icon(LucideIcons.user),
                   label: "Profile",
                 ),
               ],

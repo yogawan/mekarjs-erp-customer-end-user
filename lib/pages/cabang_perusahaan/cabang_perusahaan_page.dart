@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class CabangPerusahaanPage extends StatefulWidget {
   const CabangPerusahaanPage({super.key});
@@ -82,7 +83,7 @@ class _CabangPerusahaanPageState extends State<CabangPerusahaanPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.store_outlined,
+                        LucideIcons.store,
                         size: 64,
                         color: Colors.grey[400],
                       ),
@@ -118,7 +119,7 @@ class _CabangPerusahaanPageState extends State<CabangPerusahaanPage> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,10 +130,10 @@ class _CabangPerusahaanPageState extends State<CabangPerusahaanPage> {
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFFBB00).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(24),
                 ),
                 child: const Icon(
-                  Icons.store,
+                  LucideIcons.store,
                   color: Color(0xFFFFBB00),
                   size: 24,
                 ),
@@ -163,22 +164,22 @@ class _CabangPerusahaanPageState extends State<CabangPerusahaanPage> {
             ],
           ),
           const SizedBox(height: 16),
-          _buildInfoItem(Icons.location_on_outlined, item["alamat"]),
+          _buildInfoItem(LucideIcons.mapPin, item["alamat"]),
           const SizedBox(height: 8),
-          _buildInfoItem(Icons.phone_outlined, item["kontak"]),
+          _buildInfoItem(LucideIcons.phone, item["kontak"]),
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: () => openMaps(item["googleMapsLink"]),
-              icon: const Icon(Icons.map_outlined, size: 20),
+              icon: const Icon(LucideIcons.map, size: 20),
               label: const Text("Lihat Lokasi di Google Maps"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFFFBB00),
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(99),
                 ),
                 elevation: 0,
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class KepalaCabangPage extends StatefulWidget {
   const KepalaCabangPage({super.key});
@@ -90,7 +91,7 @@ class _KepalaCabangPageState extends State<KepalaCabangPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.supervisor_account_outlined,
+                        LucideIcons.users,
                         size: 64,
                         color: Colors.grey[400],
                       ),
@@ -127,7 +128,7 @@ class _KepalaCabangPageState extends State<KepalaCabangPage> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,7 +164,7 @@ class _KepalaCabangPageState extends State<KepalaCabangPage> {
                     Row(
                       children: [
                         Icon(
-                          Icons.email_outlined,
+                          LucideIcons.mail,
                           size: 14,
                           color: Colors.grey[600],
                         ),
@@ -195,10 +196,10 @@ class _KepalaCabangPageState extends State<KepalaCabangPage> {
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: const Color(0xFFFFBB00).withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(24),
                 ),
                 child: const Icon(
-                  Icons.store,
+                  LucideIcons.store,
                   color: Color(0xFFFFBB00),
                   size: 20,
                 ),
@@ -229,22 +230,22 @@ class _KepalaCabangPageState extends State<KepalaCabangPage> {
             ],
           ),
           const SizedBox(height: 12),
-          _buildInfoItem(Icons.location_on_outlined, cabang["alamat"]),
+          _buildInfoItem(LucideIcons.mapPin, cabang["alamat"]),
           const SizedBox(height: 8),
-          _buildInfoItem(Icons.phone_outlined, cabang["kontak"]),
+          _buildInfoItem(LucideIcons.phone, cabang["kontak"]),
           const SizedBox(height: 16),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
               onPressed: () => openMaps(cabang["googleMapsLink"]),
-              icon: const Icon(Icons.map_outlined, size: 20),
+              icon: const Icon(LucideIcons.map, size: 20),
               label: const Text("Lihat Lokasi di Google Maps"),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFFFFBB00),
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
+                padding: const EdgeInsets.symmetric(vertical: 20),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(99),
                 ),
                 elevation: 0,
               ),

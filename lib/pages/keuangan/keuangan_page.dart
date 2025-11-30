@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class KeuanganPage extends StatefulWidget {
   const KeuanganPage({super.key});
@@ -113,11 +114,54 @@ class _KeuanganPageState extends State<KeuanganPage> {
                         color: Colors.grey[600],
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 32),
+                    // Net Profit Display
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFBB00).withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            LucideIcons.wallet,
+                            color: Color(0xFFFFBB00),
+                            size: 48,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Net Profit",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[600],
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                _formatRupiah(netProfit),
+                                style: const TextStyle(
+                                  fontSize: 36,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFFFFBB00),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 32),
                     _buildFinanceCard(
                       title: "Pemasukan",
                       amount: _formatRupiah(pemasukan),
-                      icon: Icons.arrow_downward,
+                      icon: LucideIcons.arrowDownToLine,
                       color: Colors.green,
                       backgroundColor: Colors.green.shade50,
                     ),
@@ -125,18 +169,9 @@ class _KeuanganPageState extends State<KeuanganPage> {
                     _buildFinanceCard(
                       title: "Pengeluaran",
                       amount: _formatRupiah(pengeluaran),
-                      icon: Icons.arrow_upward,
+                      icon: LucideIcons.arrowUpFromLine,
                       color: Colors.red,
                       backgroundColor: Colors.red.shade50,
-                    ),
-                    const SizedBox(height: 16),
-                    _buildFinanceCard(
-                      title: "Net Profit",
-                      amount: _formatRupiah(netProfit),
-                      icon: Icons.account_balance_wallet,
-                      color: const Color(0xFFFFBB00),
-                      backgroundColor: const Color(0xFFFFBB00).withOpacity(0.1),
-                      isHighlight: true,
                     ),
                   ],
                 ),
@@ -158,10 +193,7 @@ class _KeuanganPageState extends State<KeuanganPage> {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: isHighlight
-            ? Border.all(color: const Color(0xFFFFBB00), width: 2)
-            : null,
+        borderRadius: BorderRadius.circular(24),
       ),
       child: Row(
         children: [
@@ -169,7 +201,7 @@ class _KeuanganPageState extends State<KeuanganPage> {
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: backgroundColor,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(24),
             ),
             child: Icon(
               icon,
