@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../constants/api.dart';
 
 class CreateCabangPerusahaanPage extends StatefulWidget {
   const CreateCabangPerusahaanPage({super.key});
@@ -47,7 +48,7 @@ class _CreateCabangPerusahaanPageState extends State<CreateCabangPerusahaanPage>
       final dio = Dio();
 
       final response = await dio.post(
-        "https://mekarjs-erp-core-service.yogawanadityapratama.com/api/owner/branch",
+        "${Api.baseUrl}/api/owner/branch",
         data: {
           "namaCabang": namaCabangController.text.trim(),
           "kodeCabang": kodeCabangController.text.trim(),

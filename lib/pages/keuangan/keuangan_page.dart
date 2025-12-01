@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../../constants/api.dart';
 
 class KeuanganPage extends StatefulWidget {
   const KeuanganPage({super.key});
@@ -37,7 +38,7 @@ class _KeuanganPageState extends State<KeuanganPage> {
       final dio = Dio();
 
       final response = await dio.get(
-        "https://mekarjs-erp-core-service.yogawanadityapratama.com/api/owner/finance",
+        "${Api.baseUrl}/api/owner/finance",
         options: Options(
           headers: {
             "Authorization": "Bearer $token",
