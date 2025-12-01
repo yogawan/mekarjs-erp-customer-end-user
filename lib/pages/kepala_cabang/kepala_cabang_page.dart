@@ -81,6 +81,45 @@ class _KepalaCabangPageState extends State<KepalaCabangPage> {
         elevation: 0,
         backgroundColor: const Color(0xFFEEEEEE),
       ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.pushNamed(context, "/tanya-ai");
+            },
+            backgroundColor: const Color(0xFFFFBB00),
+            foregroundColor: Colors.white,
+            icon: const Icon(LucideIcons.messageCircle),
+            label: const Text(
+              "Tanya AI",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            elevation: 0,
+          ),
+          const SizedBox(width: 12),
+          FloatingActionButton.extended(
+            onPressed: () async {
+              final result = await Navigator.pushNamed(context, "/create-kepala-cabang");
+              if (result == true) {
+                fetchManagers(); // Refresh list jika berhasil tambah
+              }
+            },
+            backgroundColor: const Color(0xFFFFBB00),
+            foregroundColor: Colors.white,
+            icon: const Icon(LucideIcons.userPlus),
+            label: const Text(
+              "Kepala Cabang Baru",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            elevation: 0,
+          ),
+        ],
+      ),
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(color: Color(0xFFFFBB00)),
@@ -123,14 +162,25 @@ class _KepalaCabangPageState extends State<KepalaCabangPage> {
   }
 
   Widget _buildManagerCard(dynamic manager, dynamic cabang) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: Column(
+    return GestureDetector(
+      onTap: () async {
+        final result = await Navigator.pushNamed(
+          context,
+          "/detail-kepala-cabang",
+          arguments: manager["_id"],
+        );
+        if (result == true) {
+          fetchManagers(); // Refresh list jika ada perubahan
+        }
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+        ),
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Manager Info
@@ -252,6 +302,7 @@ class _KepalaCabangPageState extends State<KepalaCabangPage> {
             ),
           ),
         ],
+      ),
       ),
     );
   }

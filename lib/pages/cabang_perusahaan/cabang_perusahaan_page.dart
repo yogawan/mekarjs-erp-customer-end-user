@@ -73,23 +73,44 @@ class _CabangPerusahaanPageState extends State<CabangPerusahaanPage> {
         elevation: 0,
         backgroundColor: const Color(0xFFEEEEEE),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          final result = await Navigator.pushNamed(context, "/create-cabang-perusahaan");
-          if (result == true) {
-            fetchBranches(); // Refresh list jika berhasil tambah
-          }
-        },
-        backgroundColor: const Color(0xFFFFBB00),
-        foregroundColor: Colors.white,
-        icon: const Icon(LucideIcons.plus),
-        label: const Text(
-          "Cabang Baru",
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.pushNamed(context, "/tanya-ai");
+            },
+            backgroundColor: const Color(0xFFFFBB00),
+            foregroundColor: Colors.white,
+            icon: const Icon(LucideIcons.messageCircle),
+            label: const Text(
+              "Tanya AI",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            elevation: 0,
           ),
-        ),
-        elevation: 0,
+          const SizedBox(width: 12),
+          FloatingActionButton.extended(
+            onPressed: () async {
+              final result = await Navigator.pushNamed(context, "/create-cabang-perusahaan");
+              if (result == true) {
+                fetchBranches(); // Refresh list jika berhasil tambah
+              }
+            },
+            backgroundColor: const Color(0xFFFFBB00),
+            foregroundColor: Colors.white,
+            icon: const Icon(LucideIcons.plus),
+            label: const Text(
+              "Cabang Baru",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            elevation: 0,
+          ),
+        ],
       ),
       body: isLoading
           ? const Center(

@@ -38,13 +38,15 @@ class App extends StatelessWidget {
 
       routes: {
         '/': (context) => const BNav(),
-        '/tanya-ai': (context) => const TanyaAiPage(),
         '/keuangan': (context) => const KeuanganPage(),
         '/profile': (context) => const ProfilePage(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const CreateAccountPage(),
         '/splash': (context) => const SplashPage(),
 
+        // Tanya AI
+        '/tanya-ai': (context) => const TanyaAiPage(),
+        
         // Cabang Perusahaan
         '/cabang-perusahaan': (context) => const CabangPerusahaanPage(),
         '/create-cabang-perusahaan': (context) => const CreateCabangPerusahaanPage(),

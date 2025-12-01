@@ -86,6 +86,21 @@ class _KeuanganPageState extends State<KeuanganPage> {
         elevation: 0,
         backgroundColor: const Color(0xFFEEEEEE),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pushNamed(context, "/tanya-ai");
+        },
+        backgroundColor: const Color(0xFFFFBB00),
+        foregroundColor: Colors.white,
+        icon: const Icon(LucideIcons.messageCircle),
+        label: const Text(
+          "Tanya AI",
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        elevation: 0,
+      ),
       body: isLoading
           ? const Center(
               child: CircularProgressIndicator(color: Color(0xFFFFBB00)),

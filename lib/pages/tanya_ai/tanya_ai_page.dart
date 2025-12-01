@@ -106,9 +106,12 @@ class _TanyaAiPageState extends State<TanyaAiPage> {
       appBar: AppBar(
         title: const Text("Tanya AI"),
         centerTitle: true,
-        automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: const Color(0xFFEEEEEE),
+        leading: IconButton(
+          icon: const Icon(LucideIcons.arrowLeft),
+          onPressed: () => Navigator.pushReplacementNamed(context, "/"),
+        ),
       ),
       body: Column(
         children: [

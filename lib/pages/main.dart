@@ -1,7 +1,6 @@
 // lib/pages/main.dart
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import '../pages/tanya_ai/tanya_ai_page.dart';
 import '../pages/keuangan/keuangan_page.dart';
 import '../pages/kepala_cabang/kepala_cabang_page.dart';
 import '../pages/profile/profile_page.dart';
@@ -18,7 +17,6 @@ class _BNavState extends State<BNav> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
-    TanyaAiPage(),
     KeuanganPage(),
     CabangPerusahaanPage(),
     KepalaCabangPage(),
@@ -57,10 +55,6 @@ class _BNavState extends State<BNav> {
                 });
               },
               items: const [
-                BottomNavigationBarItem(
-                  icon: Icon(LucideIcons.sparkles),
-                  label: "Tanya AI",
-                ),
                 BottomNavigationBarItem(
                   icon: Icon(LucideIcons.wallet),
                   label: "Keuangan",
