@@ -1,4 +1,4 @@
-package com.example.mekarjs_erp_owner_end_user
+package com.example.mekarjs_erp_customer_end_user
 
 import io.flutter.embedding.android.FlutterActivity
 
