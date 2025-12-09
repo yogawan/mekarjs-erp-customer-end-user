@@ -2,66 +2,96 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../constants/api.dart';
-import 'verify_otp_page.dart';
 
-class CreateAccountPage extends StatefulWidget {
-  const CreateAccountPage({super.key});
+class ResetPasswordPage extends StatefulWidget {
+  final String email;
+
+  const ResetPasswordPage({
+    super.key,
+    required this.email,
+  });
 
   @override
-  State<CreateAccountPage> createState() => _CreateAccountPageState();
+  State<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
-class _CreateAccountPageState extends State<CreateAccountPage> {
-  final TextEditingController namaController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController alamatController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
+class _ResetPasswordPageState extends State<ResetPasswordPage> {
+  final TextEditingController otpController = TextEditingController();
+  final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  
   bool isLoading = false;
-  bool isPasswordVisible = false;
+  bool isNewPasswordVisible = false;
+  bool isConfirmPasswordVisible = false;
 
-  Future<void> registerOwner() async {
+  Future<void> resetPassword() async {
+    if (otpController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Kode OTP tidak boleh kosong")),
+      );
+      return;
+    }
+
+    if (newPasswordController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Password baru tidak boleh kosong")),
+      );
+      return;
+    }
+
+    if (newPasswordController.text != confirmPasswordController.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Password tidak cocok")),
+      );
+      return;
+    }
+
     setState(() => isLoading = true);
 
     try {
       final dio = Dio();
 
       final response = await dio.post(
-        "${Api.baseUrl}/api/customer/account/create-account",
+        "${Api.baseUrl}/api/customer/account/reset-password",
         data: {
-          "nama": namaController.text.trim(),
-          "email": emailController.text.trim(),
-          "alamat": alamatController.text.trim(),
-          "password": passwordController.text.trim(),
+          "email": widget.email,
+          "otp": otpController.text.trim(),
+          "newPassword": newPasswordController.text.trim(),
         },
         options: Options(headers: {"Content-Type": "application/json"}),
       );
 
       if (response.statusCode == 200) {
-        final msg = response.data["message"] ?? "OTP terkirim ke email. Silakan verifikasi.";
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(msg)));
+        final msg = response.data["message"] ?? "Password berhasil direset!";
+        
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(msg)),
+          );
 
-        // Navigate to OTP verification page
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VerifyOtpPage(
-              nama: namaController.text.trim(),
-              email: emailController.text.trim(),
-              password: passwordController.text.trim(),
-            ),
-          ),
-        );
+          // Navigate back to login page (pop all forgot password related pages)
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        }
       }
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Gagal membuat akun: $e")));
+      if (mounted) {
+        String errorMsg = "Gagal reset password";
+        
+        if (e is DioException && e.response != null) {
+          errorMsg = e.response?.data["message"] ?? errorMsg;
+        } else {
+          errorMsg = "$errorMsg: $e";
+        }
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMsg)),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => isLoading = false);
+      }
     }
-
-    setState(() => isLoading = false);
   }
 
   @override
@@ -85,18 +115,26 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Buat Akun Baru dan Mulai Kelola Bisnis Anda",
+                "Reset Password",
                 style: TextStyle(
                   fontSize: 44,
                   fontWeight: FontWeight.normal,
                 ),
               ),
             ),
+            const SizedBox(height: 12),
+            Text(
+              "Masukkan kode OTP yang telah dikirim ke ${widget.email} dan password baru Anda",
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.grey,
+              ),
+            ),
             const SizedBox(height: 24),
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Nama",
+                "Kode OTP",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -105,11 +143,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             ),
             const SizedBox(height: 8),
             TextField(
-              controller: namaController,
+              controller: otpController,
+              keyboardType: TextInputType.number,
+              maxLength: 6,
               decoration: InputDecoration(
-                hintText: "Masukan nama lengkap anda",
+                hintText: "Masukan kode OTP 6 digit",
                 filled: true,
                 fillColor: Colors.white,
+                counterText: "",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
@@ -128,7 +169,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Email",
+                "Password Baru",
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -137,84 +178,64 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             ),
             const SizedBox(height: 8),
             TextField(
-              controller: emailController,
+              controller: newPasswordController,
+              obscureText: !isNewPasswordVisible,
               decoration: InputDecoration(
-                hintText: "Masukan email anda",
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFFFFBB00), width: 2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Alamat",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: alamatController,
-              decoration: InputDecoration(
-                hintText: "Masukan alamat lengkap anda",
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(color: Color(0xFFFFBB00), width: 2),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Password",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
-            TextField(
-              controller: passwordController,
-              obscureText: !isPasswordVisible,
-              decoration: InputDecoration(
-                hintText: "Masukan password anda",
+                hintText: "Masukan password baru",
                 filled: true,
                 fillColor: Colors.white,
                 suffixIcon: IconButton(
                   icon: Icon(
-                    isPasswordVisible ? LucideIcons.eye : LucideIcons.eyeOff,
+                    isNewPasswordVisible ? LucideIcons.eye : LucideIcons.eyeOff,
                     color: Colors.grey,
                   ),
                   onPressed: () {
                     setState(() {
-                      isPasswordVisible = !isPasswordVisible;
+                      isNewPasswordVisible = !isNewPasswordVisible;
+                    });
+                  },
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xFFFFBB00), width: 2),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Konfirmasi Password Baru",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              controller: confirmPasswordController,
+              obscureText: !isConfirmPasswordVisible,
+              decoration: InputDecoration(
+                hintText: "Masukan ulang password baru",
+                filled: true,
+                fillColor: Colors.white,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    isConfirmPasswordVisible ? LucideIcons.eye : LucideIcons.eyeOff,
+                    color: Colors.grey,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      isConfirmPasswordVisible = !isConfirmPasswordVisible;
                     });
                   },
                 ),
@@ -236,7 +257,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
-                onPressed: isLoading ? null : registerOwner,
+                onPressed: isLoading ? null : resetPassword,
                 icon: isLoading
                     ? const SizedBox(
                         height: 20,
@@ -246,9 +267,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                           strokeWidth: 2.5,
                         ),
                       )
-                    : const Icon(LucideIcons.userPlus, size: 20),
+                    : const Icon(LucideIcons.key, size: 20),
                 label: const Text(
-                  "Buat Akun",
+                  "Reset Password",
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -264,33 +285,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   elevation: 0,
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "Sudah punya akun? ",
-                  style: TextStyle(color: Colors.grey),
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    minimumSize: const Size(0, 0),
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                  child: const Text(
-                    "Login sekarang",
-                    style: TextStyle(
-                      color: Color(0xFFFFBB00),
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),

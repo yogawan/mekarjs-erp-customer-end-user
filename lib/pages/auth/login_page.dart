@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
       final dio = Dio();
 
       final response = await dio.post(
-        "${Api.baseUrl}/api/owner/account/login",
+        "${Api.baseUrl}/api/customer/account/login",
         data: {
           "email": emailController.text.trim(),
           "password": passwordController.text.trim(),
@@ -188,6 +188,51 @@ class _LoginPageState extends State<LoginPage> {
                   elevation: 0,
                 ),
               ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/forgot-password');
+                  },
+                  child: const Text(
+                    "Lupa password?",
+                    style: TextStyle(
+                      color: Color(0xFFFFBB00),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Belum punya akun? ",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                    minimumSize: const Size(0, 0),
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
+                  child: const Text(
+                    "Daftar sekarang",
+                    style: TextStyle(
+                      color: Color(0xFFFFBB00),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),

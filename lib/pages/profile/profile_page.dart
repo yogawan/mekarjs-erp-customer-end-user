@@ -37,7 +37,7 @@ class _ProfilePageState extends State<ProfilePage> {
       final dio = Dio();
 
       final response = await dio.get(
-        "${Api.baseUrl}/api/owner/account/profile",
+        "${Api.baseUrl}/api/customer/account/profile",
         options: Options(
           headers: {
             "Authorization": "Bearer $token",
@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
       if (response.statusCode == 200) {
         setState(() {
-          profileData = response.data["owner"];
+          profileData = response.data["customer"];
         });
       }
     } catch (e) {
@@ -88,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: const Color(0xFFEEEEEE),
       appBar: AppBar(
-        title: const Text("Profil Owner"),
+        title: const Text("Profil Saya"),
         centerTitle: true,
         automaticallyImplyLeading: false,
         elevation: 0,
@@ -142,6 +142,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   const SizedBox(height: 16),
                   _buildInfoRow("Email", profileData!["email"]),
+                  const SizedBox(height: 12),
+                  _buildInfoRow("Alamat", profileData!["alamat"] ?? "-"),
                   const SizedBox(height: 12),
                   _buildInfoRow(
                     "Status",

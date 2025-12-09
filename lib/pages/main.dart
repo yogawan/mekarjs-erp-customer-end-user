@@ -1,10 +1,9 @@
 // lib/pages/main.dart
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import '../pages/keuangan/keuangan_page.dart';
-import '../pages/kepala_cabang/kepala_cabang_page.dart';
+import '../pages/product/product_page.dart';
+import '../pages/pembelian/pembelian_page.dart';
 import '../pages/profile/profile_page.dart';
-import '../pages/cabang_perusahaan/cabang_perusahaan_page.dart';
 
 class BNav extends StatefulWidget {
   const BNav({super.key});
@@ -17,9 +16,8 @@ class _BNavState extends State<BNav> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = const [
-    KeuanganPage(),
-    CabangPerusahaanPage(),
-    KepalaCabangPage(),
+    ProductPage(),
+    PembelianPage(),
     ProfilePage(),
   ];
 
@@ -56,20 +54,16 @@ class _BNavState extends State<BNav> {
               },
               items: const [
                 BottomNavigationBarItem(
-                  icon: Icon(LucideIcons.wallet),
-                  label: "Keuangan",
-                ),
-                BottomNavigationBarItem(
                   icon: Icon(LucideIcons.store),
-                  label: "Kelola Cabang Perusahaan",
+                  label: "Semua Produk",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(LucideIcons.users),
-                  label: "Kelola Kepala Cabang",
+                  label: "Semua Pembelian",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(LucideIcons.user),
-                  label: "Profile",
+                  label: "Profile Saya",
                 ),
               ],
             ),
