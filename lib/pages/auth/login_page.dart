@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Masuk dan Mulai Pantau Bisnis Anda",
+                "Masuk dan Mulai Beli Material Yang Cocok Untuk Kebutuhan Konstruksi Anda",
                 style: TextStyle(
                   fontSize: 44,
                   fontWeight: FontWeight.normal,

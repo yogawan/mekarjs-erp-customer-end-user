@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import '../../constants/api.dart';
+import 'detail_product_page.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -139,13 +140,10 @@ class _ProductPageState extends State<ProductPage> {
         automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: const Color(0xFFEEEEEE),
-      ),
-      body: Column(
-        children: [
-          // Filter Section
-          Container(
-            color: const Color(0xFFEEEEEE),
-            padding: const EdgeInsets.all(16),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60),
+          child: Container(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -161,10 +159,9 @@ class _ProductPageState extends State<ProductPage> {
               ),
             ),
           ),
-          const SizedBox(height: 8),
-          // Product List
-          Expanded(
-            child: isLoading
+        ),
+      ),
+      body: isLoading
                 ? const Center(child: CircularProgressIndicator(
                     color: Color(0xFFFFBB00),
                   ))
@@ -199,13 +196,25 @@ class _ProductPageState extends State<ProductPage> {
                             final product = filteredProducts[index];
                             final cabang = product['cabangId'];
                             
-                            return Card(
-                              margin: const EdgeInsets.only(bottom: 12),
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Padding(
+                            return InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailProductPage(
+                                      productId: product['_id'],
+                                    ),
+                                  ),
+                                );
+                              },
+                              borderRadius: BorderRadius.circular(28),
+                              child: Card(
+                                margin: const EdgeInsets.only(bottom: 12),
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(28),
+                                ),
+                                child: Padding(
                                 padding: const EdgeInsets.all(16),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -383,16 +392,50 @@ class _ProductPageState extends State<ProductPage> {
                                         ),
                                       ],
                                     ),
+                                    const SizedBox(height: 16),
+                                    SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton.icon(
+                                        onPressed: product['aktif'] == true
+                                            ? () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => DetailProductPage(
+                                                      productId: product['_id'],
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            : null,
+                                        icon: const Icon(LucideIcons.shoppingCart, size: 18),
+                                        label: const Text(
+                                          'Pesan Sekarang',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: const Color(0xFFFFBB00),
+                                          foregroundColor: Colors.white,
+                                          padding: const EdgeInsets.all(20),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(9999),
+                                          ),
+                                          elevation: 0,
+                                          disabledBackgroundColor: Colors.grey[300],
+                                        ),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
+                            ),
                             );
                           },
                         ),
                       ),
-          ),
-        ],
-      ),
     );
   }
 }

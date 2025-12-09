@@ -85,7 +85,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             const Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Buat Akun Baru dan Mulai Kelola Bisnis Anda",
+                "Buat Akun Baru dan Mulai Pilih Material Yang Tepat Untuk Kebutuhan Konstruksi Anda",
                 style: TextStyle(
                   fontSize: 44,
                   fontWeight: FontWeight.normal,

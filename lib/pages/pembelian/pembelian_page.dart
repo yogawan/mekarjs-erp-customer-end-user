@@ -155,6 +155,7 @@ class _PembelianPageState extends State<PembelianPage> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: const Color(0xFFEEEEEE),
+        automaticallyImplyLeading: false,
       ),
       body: isLoading
           ? const Center(
@@ -199,7 +200,7 @@ class _PembelianPageState extends State<PembelianPage> {
                         margin: const EdgeInsets.only(bottom: 12),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(28),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(16),
@@ -377,9 +378,9 @@ class _PembelianPageState extends State<PembelianPage> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: const Color(0xFFFFBB00),
                                       foregroundColor: Colors.white,
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                      padding: const EdgeInsets.all(20),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(9999),
                                       ),
                                       elevation: 0,
                                     ),
