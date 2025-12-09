@@ -27,7 +27,11 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/splash',
 
-      theme: ThemeData(textTheme: GoogleFonts.playfairDisplayTextTheme()),
+      theme: ThemeData(
+        fontFamily: GoogleFonts.lora().fontFamily,
+        textTheme: GoogleFonts.loraTextTheme(),
+        useMaterial3: true,
+      ),
 
       routes: {
         '/': (context) => const BNav(),
